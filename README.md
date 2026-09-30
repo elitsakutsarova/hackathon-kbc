@@ -1,72 +1,82 @@
 # KBC Dream Planner
 
 ## What is it?
+
 The Dream Planner is a personalised financial planning system that supports KBC customers in reaching their financial goals. Customers add their goals to a calendar timeline with the amount needed and a deadline. KBC turns them into a dynamic financial roadmap that tracks progress and predicts when each goal can be reached. When a goal is at risk, the app shows the consequences of each option and lets the customer choose before it recalculates the plan. At the end of the year, the planner looks back on the customer's progress.
+
 The personalisation is based mainly on information the customer provides themselves, so the Dream Planner stays non-invasive to their privacy.
 
-## App structure
-This repository contains a clickable prototype of the customer app. In the app, goals are called "dreams".
-What the prototype does
-Dream schedule (Home): a month calendar where each coloured day shows something happening: autosaves, salary, planned extra money, milestones, tips and dream dates. Below it are the upcoming goals.
-Add a dream: 3 steps. Pick a type (travel, home, wedding, car, study, time off), set the cost and the deadline, and see the monthly amount and milestones straight away.
-Roadmap: each dream has its own savings pot with an automatic monthly transfer. The app calculates the monthly amount, the progress, and when each milestone (25/50/75/100%) will be reached.
-Trade-offs: when dreams need more money per month than the customer has, the app shows the consequences of each choice. The customer can move the date of one dream (with the new date calculated) or save more each month, and the plan recalculates.
-Tips: generated from the customer's own dreams and their income moments (extra money that arrives around the same time each year, like a bonus). Examples: money left over at month end, booking and insurance moments for a trip, and a reminder about unused holiday days. The customer chooses how often they are nudged.
-Dreams & statistics: savings this year, a chart of the last 6 months, the monthly plan and the saving streak.
-Dream Wrapped: the end-of-year recap, in 7 story slides built from the customer's numbers.
-Settings: how often tips appear, bigger text, replay Wrapped, reset the demo.
+## What the prototype does
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This repository contains a clickable prototype of the customer app, built with [Expo](https://expo.dev) and React Native. In the app, goals are called "dreams".
 
-## Get started
+- **Dream schedule (Home):** a month calendar where each coloured day shows something happening: autosaves, salary, planned extra money, milestones, tips and dream dates. Below it are the upcoming goals.
+- **Add a dream:** 3 steps. Pick a type (travel, home, wedding, car, study, time off), set the cost and the deadline, and see the monthly amount and milestones straight away.
+- **Roadmap:** each dream has its own savings pot with an automatic monthly transfer. The app calculates the monthly amount, the progress, and when each milestone (25/50/75/100%) will be reached.
+- **Trade-offs:** when dreams need more money per month than the customer has, the app shows the consequences of each choice. The customer can move the date of one dream (with the new date calculated) or save more each month, and the plan recalculates.
+- **Tips:** generated from the customer's own dreams and their income moments (extra money that arrives around the same time each year, like a bonus). Examples: money left over at month end, booking and insurance moments for a trip, and a reminder about unused holiday days. The customer chooses how often they are nudged.
+- **Dreams & statistics:** savings this year, a chart of the last 6 months, the monthly plan and the saving streak.
+- **Dream Wrapped:** the end-of-year recap, in 7 story slides built from the customer's numbers.
+- **Settings:** how often tips appear, bigger text, replay Wrapped, reset the demo.
 
-1. Install dependencies
+The demo runs as if today is **30 September 2026**, with two example dreams. Everything you change is saved on the device; use **Settings → Reset demo** to start over.
 
-   ```bash
-   npm install
-   ```
+## Setup
 
-2. Start the app
+### What you need
 
-   ```bash
-   npx expo start
-   ```
+- [Node.js](https://nodejs.org) (a current LTS version) and npm, which comes with it
+- To try it on a phone: the free **Expo Go** app ([iOS](https://apps.apple.com/app/expo-go/id982107779) / [Android](https://play.google.com/store/apps/details?id=host.exp.exponent))
+- Or just a web browser
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### Install and run
 
 ```bash
-npm run reset-project
+git clone https://github.com/elitsakutsarova/hackathon-kbc.git
+cd hackathon-kbc
+npm install
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+When the dev server is running, open the app in one of these ways:
 
-### Other setup steps
+- **On your phone:** make sure the phone and computer are on the same Wi-Fi, then scan the QR code in the terminal (iPhone: with the Camera app; Android: from inside Expo Go).
+- **In the browser:** press `w` in the terminal.
+- **Simulator:** press `i` for the iOS Simulator (needs Xcode) or `a` for an Android emulator (needs Android Studio).
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+If your phone can't reach your computer (for example on university or office Wi-Fi), start with `npx expo start --tunnel` instead.
 
-## Learn more
+### Troubleshooting
 
-To learn more about developing your project with Expo, look at the following resources:
+- **You see an old version of the app:** stop every running `expo start` (Ctrl+C), then start one fresh with the cache cleared: `npx expo start -c`.
+- **Something looks off after pulling new changes:** run `npm install` again, then `npx expo start -c`.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Project structure
 
-## Join the community
+```
+src/
+  app/                 Screens (Expo Router: every file is a route)
+    _layout.tsx        App root: fonts, splash screen, toast, confetti, Wrapped
+    (tabs)/
+      _layout.tsx      Floating tab bar and the "Add a dream" button
+      index.tsx        Dream schedule (Home)
+      dreams.tsx       Dreams & statistics
+      tips.tsx         Tips
+      settings.tsx     Settings
+      detail.tsx       One dream in detail
+      add.tsx          Add a dream (3 steps)
+  components/          Shared UI: buttons, cards, icons, Wrapped, toast, confetti
+  lib/
+    dreams.ts          The planning logic: dates, templates, calculations, tips, calendar events
+    actions.ts         Everything a button can do
+    store.tsx          App state, saved on the device
+    theme.ts           Colours (light and dark), fonts and text size
+```
 
-Join our community of developers creating universal apps.
+## Useful commands
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+npx expo start      # start the dev server
+npx expo lint       # check the code for mistakes
+npx tsc --noEmit    # check the TypeScript types
+```
