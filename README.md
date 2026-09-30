@@ -1,4 +1,20 @@
-# Welcome to your Expo app 👋
+# KBC Dream Planner
+
+## What is it?
+The Dream Planner is a personalised financial planning system that supports KBC customers in reaching their financial goals. Customers add their goals to a calendar timeline with the amount needed and a deadline. KBC turns them into a dynamic financial roadmap that tracks progress and predicts when each goal can be reached. When a goal is at risk, the app shows the consequences of each option and lets the customer choose before it recalculates the plan. At the end of the year, the planner looks back on the customer's progress.
+The personalisation is based mainly on information the customer provides themselves, so the Dream Planner stays non-invasive to their privacy.
+
+## App structure
+This repository contains a clickable prototype of the customer app. In the app, goals are called "dreams".
+What the prototype does
+Dream schedule (Home): a month calendar where each coloured day shows something happening: autosaves, salary, planned extra money, milestones, tips and dream dates. Below it are the upcoming goals.
+Add a dream: 3 steps. Pick a type (travel, home, wedding, car, study, time off), set the cost and the deadline, and see the monthly amount and milestones straight away.
+Roadmap: each dream has its own savings pot with an automatic monthly transfer. The app calculates the monthly amount, the progress, and when each milestone (25/50/75/100%) will be reached.
+Trade-offs: when dreams need more money per month than the customer has, the app shows the consequences of each choice. The customer can move the date of one dream (with the new date calculated) or save more each month, and the plan recalculates.
+Tips: generated from the customer's own dreams and their income moments (extra money that arrives around the same time each year, like a bonus). Examples: money left over at month end, booking and insurance moments for a trip, and a reminder about unused holiday days. The customer chooses how often they are nudged.
+Dreams & statistics: savings this year, a chart of the last 6 months, the monthly plan and the saving streak.
+Dream Wrapped: the end-of-year recap, in 7 story slides built from the customer's numbers.
+Settings: how often tips appear, bigger text, replay Wrapped, reset the demo.
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 

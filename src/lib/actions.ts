@@ -18,7 +18,6 @@ import {
   type AppState,
   type Dream,
   type Draft,
-  type EventTarget,
   type NudgeLevel,
   type Tip,
 } from './dreams';
@@ -60,12 +59,6 @@ export function useActions() {
   const openTips = (dreamId = 'all') => {
     update((current) => ({ ...current, tipsFilterDreamId: dreamId }));
     router.navigate(SCREEN_PATHS.tips);
-  };
-
-  const openTarget = (target: EventTarget) => {
-    if (target.type === 'dreams') go('dreams');
-    if (target.type === 'dream') openDream(target.dreamId);
-    if (target.type === 'tips') openTips(target.dreamId);
   };
 
   const addWeekend = () => {
@@ -131,24 +124,15 @@ export function useActions() {
     go,
     openDream,
     openTips,
-    openTarget,
     addWeekend,
     runTip,
     openWrapped: () => setWrappedOpen(true),
     closeWrapped: () => setWrappedOpen(false),
 
-    toggleMonthStrip: () => update((current) => ({ ...current, isMonthStripOpen: !current.isMonthStripOpen })),
-    setMonth: (monthIndex: number) => update((current) => ({
+    changeMonth: (months: number) => update((current) => ({
       ...current,
-      calendarMonthIndex: monthIndex,
-      selectedCalendarDay: monthIndex === TODAY_MONTH_INDEX ? TODAY_DAY_OF_MONTH : 1,
-      isMonthStripOpen: false,
+      calendarMonthIndex: Math.max(TODAY_MONTH_INDEX, current.calendarMonthIndex + months),
     })),
-    changeMonth: (months: number) => update((current) => {
-      const calendarMonthIndex = Math.max(TODAY_MONTH_INDEX, current.calendarMonthIndex + months);
-      return { ...current, calendarMonthIndex, selectedCalendarDay: calendarMonthIndex === TODAY_MONTH_INDEX ? TODAY_DAY_OF_MONTH : 1 };
-    }),
-    pickDay: (day: number) => update((current) => ({ ...current, selectedCalendarDay: day })),
     setDreamsTab: (value: AppState['dreamsTab']) => update((current) => ({ ...current, dreamsTab: value })),
     setTipsFilter: (dreamId: string) => update((current) => ({ ...current, tipsFilterDreamId: dreamId })),
 

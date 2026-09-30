@@ -147,10 +147,10 @@ function StatusTab({ label, count, isSelected, onPress }: { label: string; count
       accessibilityRole="button"
       accessibilityState={{ selected: isSelected }}
       onPress={onPress}
-      style={{ flex: 1, minHeight: 56, paddingLeft: 18, paddingRight: 6, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, borderRadius: 28, borderWidth: 1.5, borderColor: isSelected ? c.strongFill : c.ink, backgroundColor: isSelected ? c.strongFill : 'transparent' }}
+      style={{ flex: 1, minHeight: 56, paddingLeft: 18, paddingRight: 8, paddingVertical: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, borderRadius: 28, borderWidth: 1.5, borderColor: isSelected ? c.strongFill : c.ink, backgroundColor: isSelected ? c.strongFill : 'transparent' }}
     >
-      <T size={0.9} weight={600} color={isSelected ? c.strongFillInk : c.ink}>{label}</T>
-      <View style={{ width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', backgroundColor: isSelected ? c.surface : 'transparent' }}>
+      <T size={0.9} weight={600} numberOfLines={1} color={isSelected ? c.strongFillInk : c.ink} style={{ flexShrink: 1 }}>{label}</T>
+      <View style={{ width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: isSelected ? c.surface : 'transparent' }}>
         <T weight={700}>{count}</T>
       </View>
     </Pressable>
@@ -187,7 +187,7 @@ export default function DreamsScreen() {
 
       <Card style={{ gap: 12 }}>
         <Spread style={{ alignItems: 'flex-start' }}>
-          <View>
+          <View style={{ flex: 1 }}>
             <T weight={700} color={c.muted}>Saved for dreams in {getYear(TODAY_MONTH_INDEX)}</T>
             <T size={2.2} weight={700} lh={1.1} style={{ letterSpacing: -0.6 }}>{formatEuro(savedThisYear)}</T>
           </View>

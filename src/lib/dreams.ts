@@ -13,7 +13,6 @@ export const TODAY_MONTH_INDEX = toMonthIndex(2026, 9); // demo "today": 30 Sept
 export const TODAY_DAY_OF_MONTH = 30;
 export const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const LONG_MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const SHORT_WEEKDAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 // Monday first, as in Belgium.
 export const WEEKDAY_LETTERS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
@@ -33,11 +32,6 @@ export function formatLongMonth(monthIndex: number) {
   return getLongMonthName(monthIndex) + ' ' + getYear(monthIndex);
 }
 
-export function formatDayLabel(monthIndex: number, dayNumber: number) {
-  const weekday = new Date(getYear(monthIndex), monthIndex % 12, dayNumber).getDay();
-  return SHORT_WEEKDAY_NAMES[weekday] + ' ' + dayNumber + ' ' + getLongMonthName(monthIndex);
-}
-
 // Written by hand so it looks the same on every phone (no Intl needed).
 export function formatEuro(amount: number) {
   return '€' + Math.round(amount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -45,10 +39,6 @@ export function formatEuro(amount: number) {
 
 export function formatMonthCount(monthCount: number) {
   return monthCount + (monthCount === 1 ? ' month' : ' months');
-}
-
-export function padTwoDigits(number: number) {
-  return String(number).padStart(2, '0');
 }
 
 export function getDaysInMonth(monthIndex: number) {
@@ -138,8 +128,6 @@ export type AppState = {
   addStep: 1 | 2 | 3;
   draft: Draft | null;
   calendarMonthIndex: number;
-  selectedCalendarDay: number;
-  isMonthStripOpen: boolean;
   dreamsTab: 'progress' | 'done';
   tipsFilterDreamId: string;
   nudgeLevel: NudgeLevel;
@@ -161,8 +149,6 @@ export function createInitialState(): AppState {
     addStep: 1,
     draft: null,
     calendarMonthIndex: TODAY_MONTH_INDEX,
-    selectedCalendarDay: TODAY_DAY_OF_MONTH,
-    isMonthStripOpen: false,
     dreamsTab: 'progress',
     tipsFilterDreamId: 'all',
     nudgeLevel: 'sometimes',

@@ -19,21 +19,46 @@ const TAB_ITEMS: { screen: ScreenName; iconName: IconName; label: string }[] = [
 
 // Detail belongs to Dreams, Add belongs to Home.
 const TAB_FOR_ROUTE: Record<string, ScreenName> = { index: 'home', dreams: 'dreams', detail: 'dreams', add: 'home', tips: 'tips', settings: 'settings' };
+// The floating "Add a dream" button shows everywhere except these routes.
+const ROUTES_WITHOUT_ADD_BUTTON = ['settings', 'add'];
+
+const TAB_BAR_HEIGHT = 70;
+const TAB_BAR_BOTTOM_GAP = 12;
+const ADD_BUTTON_SIZE = 56;
 
 function TabBar({ state }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   const { c, isDark } = useTheme();
   const { state: appState } = useApp();
   const { go, openTips } = useActions();
-  const currentTab = TAB_FOR_ROUTE[state.routes[state.index].name];
+  const currentRoute = state.routes[state.index].name;
+  const currentTab = TAB_FOR_ROUTE[currentRoute];
   const newTipCount = getTipFeed(appState).shownDueTips.length;
 
   return (
-    <View pointerEvents="box-none" style={{ position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 12, paddingBottom: 12 + insets.bottom, alignItems: 'center' }}>
+    <View pointerEvents="box-none" style={{ position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 12, paddingBottom: TAB_BAR_BOTTOM_GAP + insets.bottom, alignItems: 'center' }}>
+      {!ROUTES_WITHOUT_ADD_BUTTON.includes(currentRoute) && (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Add a dream"
+          onPress={() => go('add')}
+          style={({ pressed }) => [
+            {
+              position: 'absolute', right: 20, bottom: TAB_BAR_BOTTOM_GAP + insets.bottom + TAB_BAR_HEIGHT + 14,
+              width: ADD_BUTTON_SIZE, height: ADD_BUTTON_SIZE, borderRadius: ADD_BUTTON_SIZE / 2,
+              alignItems: 'center', justifyContent: 'center', backgroundColor: c.strongFill,
+              boxShadow: isDark ? undefined : '0px 8px 20px rgba(11, 42, 74, 0.25)',
+            },
+            pressed && { opacity: 0.85 },
+          ]}
+        >
+          <Icon name="plus" size={26} strokeWidth={2.4} color={c.strongFillInk} />
+        </Pressable>
+      )}
       <View
         accessibilityRole="tablist"
         style={{
-          width: '100%', maxWidth: 416, height: 70, paddingHorizontal: 10, borderRadius: 35,
+          width: '100%', maxWidth: 416, height: TAB_BAR_HEIGHT, paddingHorizontal: 10, borderRadius: 35,
           flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
           backgroundColor: c.tabbar, boxShadow: isDark ? undefined : '0px 12px 30px rgba(11, 42, 74, 0.25)',
         }}

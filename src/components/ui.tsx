@@ -45,7 +45,11 @@ export function Rich({ parts, color, size = 1 }: { parts: RichText; color?: stri
 }
 
 // ---------- Layout ----------
-/** A scrolling screen: 20px sides, room for the floating tab bar, back to the top on every visit. */
+export const SCREEN_SIDE_PADDING = 20;
+/** Space under the content for the floating tab bar and the add button above it. */
+const SCREEN_BOTTOM_SPACE = 180;
+
+/** A scrolling screen over the whole width, with room for the floating tab bar, back to the top on every visit. */
 export function Screen({ children }: { children: ReactNode }) {
   const insets = useSafeAreaInsets();
   const { c } = useTheme();
@@ -55,7 +59,7 @@ export function Screen({ children }: { children: ReactNode }) {
     <ScrollView
       ref={scrollRef}
       style={{ flex: 1, backgroundColor: c.bg }}
-      contentContainerStyle={{ width: '100%', maxWidth: 440, alignSelf: 'center', paddingHorizontal: 20, paddingTop: insets.top + 20, paddingBottom: insets.bottom + 132, gap: 22 }}
+      contentContainerStyle={{ paddingHorizontal: SCREEN_SIDE_PADDING, paddingTop: insets.top + 20, paddingBottom: insets.bottom + SCREEN_BOTTOM_SPACE, gap: 22 }}
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
     >
@@ -167,7 +171,7 @@ export function LinkButton({ label, onPress, onPastel, style }: { label: string;
 // ---------- Small pieces ----------
 export function Pill({ label, color, icon }: { label: string; color: string; icon?: IconName }) {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, alignSelf: 'flex-start', paddingHorizontal: 12, paddingVertical: 3, borderRadius: 999, borderWidth: 1.5, borderColor: color }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, alignSelf: 'flex-start', flexShrink: 0, paddingHorizontal: 10, paddingVertical: 3, borderRadius: 999, borderWidth: 1.5, borderColor: color }}>
       {icon && <Icon name={icon} size={14} strokeWidth={2.2} color={color} />}
       <T size={0.8} weight={600} color={color}>{label}</T>
     </View>
@@ -219,9 +223,9 @@ export function Segmented<V extends string>({ options, value, onChange, label }:
             accessibilityRole="button"
             accessibilityState={{ selected: isSelected }}
             onPress={() => onChange(option.value)}
-            style={{ flex: 1, minHeight: 44, borderRadius: 999, alignItems: 'center', justifyContent: 'center', backgroundColor: isSelected ? c.strongFill : 'transparent' }}
+            style={{ flexGrow: 1, flexBasis: 'auto', minHeight: 44, paddingHorizontal: 12, borderRadius: 999, alignItems: 'center', justifyContent: 'center', backgroundColor: isSelected ? c.strongFill : 'transparent' }}
           >
-            <T weight={600} color={isSelected ? c.strongFillInk : c.ink}>{option.label}</T>
+            <T size={0.9} weight={600} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75} color={isSelected ? c.strongFillInk : c.ink}>{option.label}</T>
           </Pressable>
         );
       })}
@@ -283,11 +287,13 @@ export function WrappedBanner({ title, subtitle }: { title: string; subtitle: st
   const { openWrapped } = useActions();
   return (
     <Pressable accessibilityRole="button" onPress={openWrapped} style={({ pressed }) => [{ overflow: 'hidden', minHeight: 150, padding: 22, gap: 6, borderRadius: radius.xl, backgroundColor: '#0B2A4A', justifyContent: 'center' }, pressed && { opacity: 0.9 }]}>
-      <View pointerEvents="none" style={{ position: 'absolute', right: -30, top: -30, width: 200, height: 200 }}>
+      <View pointerEvents="none" style={{ position: 'absolute', right: -30, top: -30, width: 200, height: 200, zIndex: 0 }}>
         <OrbitShapes shapeCount={8} orbitRadius={70} shapeSize={34} colours={['#62BCEB', '#FFD66B', '#BFE8B4', '#6158CC']} centerX={100} centerY={100} opacity={0.9} />
       </View>
-      <T size={1.5} weight={700} lh={1.1} color="#FFFFFF" style={{ zIndex: 1 }}>{title}</T>
-      <T color="#CFE6F7" style={{ zIndex: 1 }}>{subtitle}</T>
+      <View style={{ position: 'relative', zIndex: 1, gap: 6 }}>
+        <T size={1.5} weight={700} lh={1.1} color="#FFFFFF">{title}</T>
+        <T color="#CFE6F7">{subtitle}</T>
+      </View>
     </Pressable>
   );
 }
